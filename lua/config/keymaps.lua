@@ -31,6 +31,6 @@ else
   map("n", "<C-Right>", "<cmd>vertical resize +2<cr>", { desc = "Increase Window Width" })
 end
 
-map("n", "gd", "<cmd>lua vim.lsp.buf.definition()<cr>", {desc = "Go to Definition"})
-map("n", "gD", "<cmd>lua vim.lsp.buf.definition()<cr>", {desc = "Go to Declaration"})
-map("n", "gh", "<cmd>lua vim.lsp.buf.signature_help()<cr>", {desc = "Signature help"})
+map("n", "gd", "<cmd>lua vim.lsp.buf.definition()<cr>", { desc = "Go to Definition" })
+map("n", "gD", "<cmd>lua vim.lsp.buf.definition()<cr>", { desc = "Go to Declaration" })
+map("n", "gh", "<cmd>lua vim.lsp.buf.signature_help()<cr>", { desc = "Signature help" })

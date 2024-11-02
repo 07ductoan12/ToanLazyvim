@@ -581,7 +581,7 @@ return {
   -- better vim.ui with telescope
   {
     "stevearc/dressing.nvim",
-    lazy = true,
+    lazy = false,
     enabled = function()
       return LazyVim.pick.want() == "telescope"
     end,
