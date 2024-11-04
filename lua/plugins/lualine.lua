@@ -53,35 +53,6 @@ local function filemedia(opts)
   end
 end
 
-local function is_plugin_window()
-  return vim.bo.buftype ~= ""
-end
-
-local function plugin_title()
-  return function()
-    -- Normalize bufname
-    local bufname = vim.api.nvim_buf_get_name(0)
-    if bufname:len() < 1 and vim.bo.buftype:len() < 1 then
-      return "N/A"
-    end
-
-    local msg = ""
-    local ft = vim.bo.filetype
-    local plugin_type = ft == "qf" and vim.fn.win_gettype() or ft
-    if plugin_icons[plugin_type] ~= nil then
-      for _, part in ipairs(plugin_icons[plugin_type]) do
-        msg = msg .. " " .. part
-      end
-    end
-    if #plugin_icons[plugin_type] < 2 then
-      msg = msg .. bufname
-    end
-    -- % char must be escaped in statusline.
-    msg = msg:gsub("%%", "%%%%")
-    return msg
-  end
-end
-
 return {
   "nvim-lualine/lualine.nvim",
   event = "VeryLazy",
@@ -104,15 +75,45 @@ return {
 
     vim.o.laststatus = vim.g.lualine_laststatus
 
+    local colors = {
+      blue = "#80a0ff",
+      cyan = "#79dac8",
+      black = "#080808",
+      white = "#c6c6c6",
+      red = "#ff5189",
+      violet = "#d183e8",
+      grey = "#303030",
+    }
+
+    local bubbles_theme = {
+      normal = {
+        a = { fg = colors.black, bg = colors.violet },
+        b = { fg = colors.white, bg = colors.grey },
+        c = { fg = colors.white },
+      },
+
+      insert = { a = { fg = colors.black, bg = colors.blue } },
+      visual = { a = { fg = colors.black, bg = colors.cyan } },
+      replace = { a = { fg = colors.black, bg = colors.red } },
+
+      inactive = {
+        a = { fg = colors.white, bg = colors.black },
+        b = { fg = colors.white, bg = colors.black },
+        c = { fg = colors.white },
+      },
+    }
+
     local opts = {
       options = {
-        theme = "auto",
+        theme = bubbles_theme,
         globalstatus = vim.o.laststatus == 3,
         disabled_filetypes = { statusline = { "dashboard", "alpha", "ministarter" } },
+        component_separators = "",
+        section_separators = { left = "", right = "" },
       },
       sections = {
         lualine_a = {
-          -- Left edge block.
+          { "mode", separator = { left = "" }, right_padding = 2 },
           {
             function()
               return "▊"
@@ -129,22 +130,9 @@ return {
               return ""
             end,
           },
-          {
-            padding = { left = 1, right = 0 },
-            separator = "",
-            cond = is_file_window,
-            function()
-              if vim.bo.buftype == "" and vim.bo.readonly then
-                return icons.status.filename.readonly
-              elseif vim.t["zoomed"] then
-                return icons.status.filename.zoomed
-              end
-              return ""
-            end,
-          },
-          "mode",
         },
         lualine_b = {
+          -- "filename", "branch",
           {
             "branch",
             cond = is_file_window,
@@ -172,16 +160,11 @@ return {
               end
             end,
           },
+          { "filetype", icon_only = true, separator = "", padding = { left = 1, right = 0 } },
+          { LazyVim.lualine.pretty_path() },
         },
         lualine_c = {
-          {
-            function()
-              return require("nvim-navic").get_location()
-            end,
-            cond = function()
-              return package.loaded["nvim-navic"] and require("nvim-navic").is_available()
-            end,
-          },
+          "%=", --[[ add your center compoentnts here in place of this comment ]]
         },
         lualine_x = {
           -- stylua: ignore
@@ -239,17 +222,40 @@ return {
               return "%l/%L"
             end,
             cond = is_not_prompt,
-            padding = 1,
+            padding = 2,
+            separator = { right = "" },
           },
         },
       },
       winbar = {
         lualine_c = {
           -- LazyVim.lualine.root_dir(),
-          { "filetype", icon_only = true, separator = "", padding = { left = 1, right = 0 } },
-          { LazyVim.lualine.pretty_path() },
+          "filename",
+          {
+            function()
+              return ">"
+            end,
+            padding = 0,
+          },
+          {
+            function()
+              return require("nvim-navic").get_location()
+            end,
+            cond = function()
+              return package.loaded["nvim-navic"] and require("nvim-navic").is_available()
+            end,
+          },
         },
       },
+      inactive_sections = {
+        lualine_a = { "filename" },
+        lualine_b = {},
+        lualine_c = {},
+        lualine_x = {},
+        lualine_y = {},
+        lualine_z = { "location" },
+      },
+      tabline = {},
       extensions = { "neo-tree", "lazy" },
     }
 
