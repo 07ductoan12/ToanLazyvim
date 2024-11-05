@@ -183,11 +183,16 @@ return {
 			},
 			{ '<leader>ff', '<cmd>Telescope find_files<CR>', desc = 'Find Files' },
 			{ '<leader>fg', '<cmd>Telescope live_grep<CR>', desc = 'Grep' },
+			{
+				'<leader>fs',
+				function()
+					require('telescope.builtin').lsp_workspace_symbols({
+						default_text = vim.fn.expand('<cword>'),
+					})
+				end,
+				desc = 'Find Symbol',
+			},
 
-			-- { '<leader>sd', '<cmd>Telescope diagnostics bufnr=0<CR>', desc = 'Document Diagnostics' },
-			-- { '<leader>sD', '<cmd>Telescope diagnostics<CR>', desc = 'Workspace Diagnostics' },
-			-- { '<leader>sh', '<cmd>Telescope help_tags<CR>', desc = 'Help Pages' },
-			-- { '<leader>sm', '<cmd>Telescope man_pages<CR>', desc = 'Man Pages' },
 			{ '<leader>sk', '<cmd>Telescope keymaps<CR>', desc = 'Key Maps' },
 			{ '<leader>sj', '<cmd>Telescope jumplist<cr>', desc = 'Jumplist' },
 			{ '<leader>sl', '<cmd>Telescope loclist<cr>', desc = 'Location List' },
@@ -204,7 +209,6 @@ return {
 			{ '<localleader>di', '<cmd>Telescope lsp_implementations<CR>', desc = 'Implementations' },
 			{ '<localleader>dr', '<cmd>Telescope lsp_references<CR>', desc = 'References' },
 			{ '<localleader>da', '<cmd>lua vim.lsp.buf.code_action()<CR>', desc = 'Code Actions' },
-			-- { '<localleader>da', ':Telescope lsp_range_code_actions<CR>', mode = 'x', desc = 'Code Actions' },
 			{
 				'<leader>ss',
 				function()
@@ -244,44 +248,6 @@ return {
 				end,
 				desc = 'Zoxide (MRU)',
 			},
-
-			-- Find by...
-			{
-				'<leader>gt',
-				function()
-					require('telescope.builtin').lsp_workspace_symbols({
-						default_text = vim.fn.expand('<cword>'),
-					})
-				end,
-				desc = 'Find Symbol',
-			},
-			{
-				'<leader>gf',
-				function()
-					require('telescope.builtin').find_files({
-						default_text = vim.fn.expand('<cword>'),
-					})
-				end,
-				desc = 'Find File',
-			},
-			-- {
-			-- 	'<leader>gg', function()
-			-- 		require('telescope.builtin').live_grep({
-			-- 			default_text = vim.fn.expand('<cword>'),
-			-- 		})
-			-- 	end,
-			-- 	desc = 'Grep Cursor Word',
-			-- },
-			-- {
-			-- 	'<leader>gg',
-			-- 	function()
-			-- 		require('telescope.builtin').live_grep({
-			-- 			default_text = require('util.edit').get_visual_selection(),
-			-- 		})
-			-- 	end,
-			-- 	mode = 'x',
-			-- 	desc = 'Grep Cursor Word',
-			-- },
 
 		},
     opts = function(_, opts)

@@ -1,7 +1,7 @@
 return {
   -----------------------------------------------------------------------------
   -- An alternative sudo for Vim and Neovim
-  { "lambdalisue/suda.vim", event = "BufRead" },
+  -- { "lambdalisue/suda.vim", event = "BufRead" },
 
   -----------------------------------------------------------------------------
   -- Ultimate undo history visualizer

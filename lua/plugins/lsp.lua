@@ -472,7 +472,6 @@ M = {
     end,
   },
 
-  { import = "plugins.extras.lsp.gtd" },
   { import = "lazyvim.plugins.extras.lsp.none-ls" },
   { import = "lazyvim.plugins.extras.lsp.neoconf" },
   { import = "lazyvim.plugins.extras.lang.docker" },

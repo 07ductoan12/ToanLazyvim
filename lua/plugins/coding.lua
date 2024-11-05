@@ -299,7 +299,7 @@ M = {
   },
 
   { import = "lazyvim.plugins.extras.coding.neogen" },
-  { import = "lazyvim.plugins.extras.coding.mini-surround" },
+  -- { import = "lazyvim.plugins.extras.coding.mini-surround" },
   { import = "plugins.extras.coding.emmet" },
   { import = "plugins.extras.coding.luasnip" },
 }

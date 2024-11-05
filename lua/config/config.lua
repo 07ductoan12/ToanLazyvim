@@ -23,4 +23,5 @@ ConfigVariable = {
 		sql = false,
 	},
 	zenmode = false,
+	scroll = false
 }
